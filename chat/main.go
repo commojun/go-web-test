@@ -11,8 +11,9 @@ import (
 
 	"github.com/commojun/go-web-test/trace"
 	"github.com/stretchr/gomniauth"
-	"github.com/stretchr/gomniauth/providers/facebook"
+	"github.com/stretchr/gomniauth/providers/github"
 	"github.com/stretchr/gomniauth/providers/google"
+	"github.com/stretchr/objx"
 )
 
 type templateHandler struct {
@@ -26,7 +27,13 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		t.templ =
 			template.Must(template.ParseFiles(filepath.Join("templates", t.filename)))
 	})
-	t.templ.Execute(w, r)
+	data := map[string]interface{}{
+		"Host": r.Host,
+	}
+	if authCookie, err := r.Cookie("auth"); err == nil {
+		data["UserData"] = objx.MustFromBase64(authCookie.Value)
+	}
+	t.templ.Execute(w, data)
 }
 
 func main() {
@@ -34,8 +41,9 @@ func main() {
 	flag.Parse()
 	gomniauth.SetSecurityKey(os.Getenv("SECURITY_KEY"))
 	gomniauth.WithProviders(
-		facebook.New(os.Getenv("FACEBOOK_CLIENT_ID"), os.Getenv("FACEBOOK_CLIENT_SECRET"), "http://192.168.10.111.xip.io:8080/auth/callback/facebook"),
+		//facebook.New(os.Getenv("FACEBOOK_CLIENT_ID"), os.Getenv("FACEBOOK_CLIENT_SECRET"), "http://192.168.10.111.xip.io:8080/auth/callback/facebook"),
 		google.New(os.Getenv("GOOGLE_CLIENT_ID"), os.Getenv("GOOGLE_CLIENT_SECRET"), "http://192.168.10.111.xip.io:8080/auth/callback/google"),
+		github.New(os.Getenv("GITHUB_CLIENT_ID"), os.Getenv("GITHUB_CLIENT_SECRET"), "http://192.168.10.111.xip.io:8080/auth/callback/github"),
 	)
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
