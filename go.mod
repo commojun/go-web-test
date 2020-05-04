@@ -14,5 +14,6 @@ require (
 	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/stretchr/tracer v0.0.0-20140124184152-66d3696bba97 // indirect
 	github.com/ugorji/go v1.1.7 // indirect
+	golang.org/x/tools v0.0.0-20200504022951-6b6965ac5dd1 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 // indirect
 )
