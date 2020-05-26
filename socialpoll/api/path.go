@@ -1,5 +1,9 @@
 package main
 
+import (
+	"strings"
+)
+
 const PathSeparator = "/"
 
 type Path struct {
@@ -10,7 +14,7 @@ type Path struct {
 func NewPath(p string) *Path {
 	var id string
 	p = strings.Trim(p, PathSeparator)
-	s := strings.Sprit(p, PathSeparator)
+	s := strings.Split(p, PathSeparator)
 	if len(s) > 1 {
 		id = s[len(s)-1]
 		p = strings.Join(s[:len(s)-1], PathSeparator)
