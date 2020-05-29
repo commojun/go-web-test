@@ -3,6 +3,7 @@ module github.com/commojun/go-web-test
 go 1.14
 
 require (
+	github.com/cheekybits/is v0.0.0-20150225183255-68e9c0620927
 	github.com/clbanning/x2j v0.0.0-20191024224557-825249438eec // indirect
 	github.com/garyburd/go-oauth v0.0.0-20180319155456-bca2e7f09a17
 	github.com/gorilla/websocket v1.4.2

@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"runtime"
 
 	"encoding/json"
@@ -11,7 +12,7 @@ import (
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	// meander.APIKey = "TODO"
+	meander.APIKey = os.Getenv("GOOGLE_API_KEY")
 	http.HandleFunc("/journeys", func(w http.ResponseWriter, r *http.Request) {
 		respond(w, r, meander.Journeys)
 	})
@@ -19,5 +20,9 @@ func main() {
 }
 
 func respond(w http.ResponseWriter, r *http.Request, data []interface{}) error {
-	return json.NewEncoder(w).Encode(data)
+	publicData := make([]interface{}, len(data))
+	for i, d := range data {
+		publicData[i] = meander.Public(d)
+	}
+	return json.NewEncoder(w).Encode(publicData)
 }
