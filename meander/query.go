@@ -14,17 +14,17 @@ import (
 var APIKey string
 
 type Place struct {
-	*googleGeometry `json:"geometry"`
-	Name            string         `json:"name"`
-	Icon            string         `json:"icon"`
-	Photos          []*googlePhoto `json:"photos"`
-	Vicinity        string         `json:"vicinity"`
+	googleGeometry `json:"geometry"`
+	Name           string         `json:"name"`
+	Icon           string         `json:"icon"`
+	Photos         []*googlePhoto `json:"photos"`
+	Vicinity       string         `json:"vicinity"`
 }
 type googleResponse struct {
 	Results []*Place `json:"results"`
 }
 type googleGeometry struct {
-	*googleLocation `json:"location"`
+	googleLocation `json:"location"`
 }
 type googleLocation struct {
 	Lat float64 `json:"lat"`
@@ -66,18 +66,15 @@ func (q *Query) find(types string) (*googleResponse, error) {
 		vals.Set("minprice", fmt.Sprintf("%d", int(r.From)-1))
 		vals.Set("maxprice", fmt.Sprintf("%d", int(r.To)-1))
 	}
-	log.Println(u + "?" + vals.Encode())
 	res, err := http.Get(u + "?" + vals.Encode())
 	if err != nil {
 		return nil, err
 	}
 	defer res.Body.Close()
-	log.Printf("%+v\n", res.Body)
 	var response googleResponse
 	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
 		return nil, err
 	}
-	log.Printf("parse ok %+v\n", response)
 	return &response, nil
 }
 
