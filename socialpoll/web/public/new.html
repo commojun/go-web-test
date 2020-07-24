@@ -36,12 +36,12 @@
          for (var opt in options) {
            options[opt] = options[opt].trim();
          }
-         $.post("http://192.168.10.111:8080/polls/?key=commojun",
+         $.post("http://{{.Api}}/polls/?key=commojun",
                 JSON.stringify({
                   title: title, options: options
                 })
          ).done(function(d, s, r){
-           location.href = "view.html?poll=" + r.getResponseHeader("Location");
+           location.href = "view?poll=" + r.getResponseHeader("Location");
          });
        });
      });

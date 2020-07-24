@@ -31,8 +31,14 @@ func main() {
 		}
 	}()
 
+	var (
+		mongo      = flag.String("mongo", "localhost", "MongoDBのアドレス")
+		nsqlookupd = flag.String("nsqlookupd", "localhost:4161", "nsqlookupdのアドレス")
+	)
+	flag.Parse()
+
 	log.Println("データベースに接続します...")
-	db, err := mgo.Dial("localhost")
+	db, err := mgo.Dial(*mongo)
 	if err != nil {
 		fatal(err)
 		return
@@ -63,7 +69,7 @@ func main() {
 		return nil
 	}))
 
-	if err := q.ConnectToNSQLookupd("localhost:4161"); err != nil {
+	if err := q.ConnectToNSQLookupd(*nsqlookupd); err != nil {
 		fatal(err)
 		return
 	}
