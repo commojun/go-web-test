@@ -19,7 +19,7 @@
     <script>
      $(function(){
        var update = function(){
-         $.get("http://{{.Api}}/polls/?key=commojun", null, null, "json")
+         $.get("https://{{.Api}}/polls/?key=commojun", null, null, "json")
           .done(function(polls){
             $("#polls").empty();
             for (var p in polls) {

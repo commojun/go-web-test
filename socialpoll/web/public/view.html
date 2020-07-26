@@ -27,7 +27,7 @@
           var chart;
           var poll = location.href.split("poll=")[1];
           var update = function(){
-            $.get("http://{{.Api}}/"+poll+"?key=commojun", null, null, "json")
+            $.get("https://{{.Api}}/"+poll+"?key=commojun", null, null, "json")
              .done(function(polls){
                var poll = polls[0];
                $('[data-field="title"]').text(poll.title);
@@ -58,7 +58,7 @@
           $("#delete").click(function(){
             if (confirm("本当に削除しますか？")) {
               $.ajax({
-                url:"http://{{.Api}}/"+poll+"?key=commojun",
+                url:"https://{{.Api}}/"+poll+"?key=commojun",
                 type:"DELETE"
               })
                .done(function(){
