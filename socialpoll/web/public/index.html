@@ -26,7 +26,7 @@
               var poll = polls[p];
               $("#polls").append(
                 $("<li>").append(
-                  $("<a>").attr("href", "view.html?poll=polls/" + poll.id).text(poll.title)
+                  $("<a>").attr("href", "view?poll=polls/" + poll.id).text(poll.title)
                 )
               )
             }
